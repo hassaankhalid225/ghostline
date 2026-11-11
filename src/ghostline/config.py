@@ -25,6 +25,27 @@ def default_transcripts_dir() -> str:
     return os.path.join(documents_dir(), APP_NAME)
 
 
+LEGACY_IDS = (("CaptionAssist", "Caption Assist"),)   # (APP_ID, APP_NAME) used by earlier builds
+
+
+def migrate_legacy() -> None:
+    """One-time move of data from the app's earlier name, so sign-ins, settings and transcripts survive."""
+    local = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+    for old_id, old_name in LEGACY_IDS:
+        for old, new in ((os.path.join(local, old_id), os.path.join(local, APP_ID)),
+                         (os.path.join(documents_dir(), old_name), default_transcripts_dir())):
+            if os.path.isdir(old) and not os.path.exists(new):
+                try:
+                    os.rename(old, new)
+                except OSError:
+                    pass
+        old_qs, new_qs = QSettings(old_id, "app"), QSettings(APP_ID, "app")
+        if old_qs.allKeys() and not new_qs.allKeys():
+            for key in old_qs.allKeys():
+                new_qs.setValue(key, old_qs.value(key))
+            new_qs.sync()
+
+
 def data_dir() -> str:
     base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
     path = os.path.join(base, APP_ID)

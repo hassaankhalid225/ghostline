@@ -1,4 +1,4 @@
-from caption_assist.core.text import norm, similar, split_sentences
+from ghostline.core.text import norm, similar, split_sentences
 
 
 def test_split_keeps_unfinished_tail():

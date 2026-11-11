@@ -1,4 +1,4 @@
-from caption_assist.app import main
+from ghostline.app import main
 
 if __name__ == "__main__":
     raise SystemExit(main())

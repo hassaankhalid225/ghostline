@@ -1,8 +1,19 @@
-# Caption Assist
+<p align="center">
+  <img src="docs/logo.svg" alt="Ghostline logo" width="112">
+</p>
 
-**Live captions on one half, ChatGPT or Claude on the other — invisible to screenshots and screen sharing.**
+<h1 align="center">Ghostline</h1>
 
-Caption Assist collects every sentence from Windows 11 Live Captions into a clean transcript and,
+<p align="center">
+  <b>Live captions on one half, ChatGPT or Claude on the other — invisible to screenshots and screen sharing.</b>
+  <br><br>
+  <a href="https://github.com/hassaankhalid225/ghostline/releases/latest"><img alt="Download" src="https://img.shields.io/github/v/release/hassaankhalid225/ghostline?label=download&color=7cd2ff"></a>
+  <a href="https://github.com/hassaankhalid225/ghostline/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/hassaankhalid225/ghostline/actions/workflows/ci.yml/badge.svg"></a>
+  <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-a99bff">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-lightgrey"></a>
+</p>
+
+Ghostline collects every sentence from Windows 11 Live Captions into a clean transcript and,
 with one click (`Ctrl+B`), opens an AI side panel right next to it. Send what was just said to
 ChatGPT or Claude (`Ctrl+Enter`) and read the answer while the captions keep rolling. With
 private mode (on by default) none of the app's windows show up in screenshots, recordings or
@@ -41,7 +52,7 @@ screen sharing — only you can see them.
 - **Smart de-duplication** — handles Live Captions' rolling window, re-punctuation and revisions.
 - **Keeps running when minimized** — Live Captions itself is parked off-screen so it never pauses.
 - **Copy, save & export** — plain text, text with timestamps, Markdown or `.srt` subtitles.
-- **Auto-save** — every session is written to `Documents\Caption Assist` as you go.
+- **Auto-save** — every session is written to `Documents\Ghostline` as you go.
 - **Frosted-glass UI** — compact caption bar or expanded transcript view, adjustable text size,
   always-on-top, draggable and resizable.
 - **Real background blur** while private mode is on.
@@ -58,16 +69,16 @@ screen sharing — only you can see them.
 ## Install & run
 
 ### Option A — standalone app
-Download `CaptionAssist-<version>-win64.zip` from the
-[Releases](https://github.com/hassaankhalid225/caption-assist/releases) page, unzip, run
-`CaptionAssist.exe`.
+Download `Ghostline-<version>-win64.zip` from the
+[Releases](https://github.com/hassaankhalid225/ghostline/releases) page, unzip, run
+`Ghostline.exe`.
 
 ### Option B — from source
 ```powershell
-git clone https://github.com/hassaankhalid225/caption-assist.git
-cd caption-assist
+git clone https://github.com/hassaankhalid225/ghostline.git
+cd ghostline
 python -m pip install -e .
-caption-assist            # or: pythonw run.pyw   /   double-click "Start Caption Assist.bat"
+ghostline            # or: pythonw run.pyw   /   double-click "Start Ghostline.bat"
 ```
 
 Command-line options: `--start` (begin recording right away), `--ai` (open the AI panel),
@@ -102,13 +113,13 @@ own settings.
 3. Live Captions stops updating when minimized, so the app moves its window far off-screen and
    removes its taskbar button instead — and puts it back when you quit.
 4. The AI panel is a Qt WebEngine (Chromium) browser with its own persistent profile in
-   `%LOCALAPPDATA%\CaptionAssist\web`. **Send** types the captions into the page's chat box and
+   `%LOCALAPPDATA%\Ghostline\web`. **Send** types the captions into the page's chat box and
    presses its send button.
 5. Private mode calls `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` on every window the app
    shows, so screenshots, recorders and screen sharing see whatever is behind it instead.
 
 ```
-src/caption_assist/
+src/ghostline/
 ├── core/          # platform-independent: text utils, Transcript, Recorder loop, AI send logic (unit-tested)
 ├── win/           # Win32 bindings + Live Captions controller (UI Automation)
 ├── ui/            # PySide6 glass window, AI side panel, widgets, tray, theme
@@ -120,10 +131,10 @@ src/caption_assist/
 
 - Speech recognition is done by Windows on your device; the captions never leave your PC unless
   you press **Send**, which passes them to the site open in the AI panel (ChatGPT, Claude, …).
-- Sign-ins for the AI panel are stored only in `%LOCALAPPDATA%\CaptionAssist\web`.
-- Transcripts are saved only where you choose (default `Documents\Caption Assist`); turn
+- Sign-ins for the AI panel are stored only in `%LOCALAPPDATA%\Ghostline\web`.
+- Transcripts are saved only where you choose (default `Documents\Ghostline`); turn
   auto-save off in the ⋯ menu.
-- Logs (no transcript text) live in `%LOCALAPPDATA%\CaptionAssist\logs`.
+- Logs (no transcript text) live in `%LOCALAPPDATA%\Ghostline\logs`.
 - Please respect the people you record: follow your local laws and your organisation's policies,
   and ask for consent where required.
 
@@ -145,7 +156,7 @@ src/caption_assist/
 python -m pip install -e ".[dev]"
 ruff check src tests
 python -m pytest
-powershell -ExecutionPolicy Bypass -File scripts\build.ps1   # builds dist\CaptionAssist
+powershell -ExecutionPolicy Bypass -File scripts\build.ps1   # builds dist\Ghostline
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Releases are built automatically by GitHub Actions when a

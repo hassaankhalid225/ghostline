@@ -4,8 +4,19 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from PySide6.QtCore import QRectF, Qt
-from PySide6.QtGui import QColor, QFont, QFontDatabase, QIcon, QLinearGradient, QPainter, QPixmap
+from PySide6.QtCore import QPointF, QRectF, Qt
+from PySide6.QtGui import (
+    QColor,
+    QFont,
+    QFontDatabase,
+    QIcon,
+    QLinearGradient,
+    QPainter,
+    QPainterPath,
+    QPen,
+    QPixmap,
+    QRadialGradient,
+)
 
 ACCENT = "#7cd2ff"
 ACCENT_2 = "#a99bff"
@@ -59,19 +70,63 @@ def display_font(px: int, weight: QFont.Weight = QFont.Medium) -> QFont:
     return f
 
 
-def paint_logo(p: QPainter, rect: QRectF) -> None:
+LOGO_TILE = ("#20223a", "#0e0f17")
+LOGO_INK = "#10111a"
+
+# The Ghostline mark in a 1×1 box: a ghost (hidden from screen capture) whose "eyes" are two caption
+# lines. scripts/make_icon.py renders the same geometry to assets/icon.ico and docs/logo.svg.
+GHOST_HEAD = (0.24, 0.17, 0.52)                       # x, y, diameter of the round head
+GHOST_BOTTOM, GHOST_NOTCH = 0.83, 0.68                # tips of the tail, control point of each notch
+CAPTION_LINES = ((0.35, 0.43, 0.30), (0.35, 0.555, 0.20))   # x, y, length
+LINE_W = 0.075
+
+
+def ghost_path(rect: QRectF) -> QPainterPath:
+    x0, y0, s = rect.x(), rect.y(), rect.width()
+
+    def pt(x: float, y: float) -> tuple[float, float]:
+        return x0 + x * s, y0 + y * s
+
+    hx, hy, d = GHOST_HEAD
+    left, right = hx, hx + d
+    path = QPainterPath()
+    path.moveTo(*pt(left, hy + d / 2))
+    path.arcTo(QRectF(*pt(hx, hy), d * s, d * s), 180, -180)
+    path.lineTo(*pt(right, GHOST_BOTTOM))
+    step = d / 3
+    for i in range(3):                                   # three scallops along the tail
+        a = right - i * step
+        path.quadTo(*pt(a - step / 2, GHOST_NOTCH), *pt(a - step, GHOST_BOTTOM))
+    path.closeSubpath()
+    return path
+
+
+def paint_logo(p: QPainter, rect: QRectF, tile: bool = True) -> None:
+    s = rect.width()
+    p.save()
+    p.setPen(Qt.NoPen)
+    if tile:
+        bg = QLinearGradient(rect.topLeft(), rect.bottomRight())
+        bg.setColorAt(0, QColor(LOGO_TILE[0]))
+        bg.setColorAt(1, QColor(LOGO_TILE[1]))
+        p.setBrush(bg)
+        p.drawRoundedRect(rect, s * 0.26, s * 0.26)
+        glow = QRadialGradient(rect.center(), s * 0.5)
+        glow.setColorAt(0, QColor(124, 210, 255, 60))
+        glow.setColorAt(1, QColor(124, 210, 255, 0))
+        p.setBrush(glow)
+        p.drawRoundedRect(rect, s * 0.26, s * 0.26)
     g = QLinearGradient(rect.topLeft(), rect.bottomRight())
     g.setColorAt(0, QColor(ACCENT))
     g.setColorAt(1, QColor(ACCENT_2))
-    p.setPen(Qt.NoPen)
     p.setBrush(g)
-    p.drawRoundedRect(rect, rect.width() * 0.3, rect.height() * 0.3)
-    f = QFont(UI_FONT)
-    f.setPixelSize(max(6, int(rect.height() * 0.42)))
-    f.setBold(True)
-    p.setFont(f)
-    p.setPen(QColor("#0b0b12"))
-    p.drawText(rect, Qt.AlignCenter, "CC")
+    p.drawPath(ghost_path(rect))
+    pen = QPen(QColor(LOGO_INK), max(1.2, LINE_W * s))
+    pen.setCapStyle(Qt.RoundCap)
+    p.setPen(pen)
+    for x, y, length in CAPTION_LINES:
+        p.drawLine(QPointF(rect.x() + x * s, rect.y() + y * s), QPointF(rect.x() + (x + length) * s, rect.y() + y * s))
+    p.restore()
 
 
 def app_icon() -> QIcon:

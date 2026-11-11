@@ -101,16 +101,16 @@ def framed(win) -> QImage:
 
 
 def main() -> int:
-    os.environ["LOCALAPPDATA"] = tempfile.mkdtemp(prefix="caption-assist-shots-")   # throw-away web profile
+    os.environ["LOCALAPPDATA"] = tempfile.mkdtemp(prefix="ghostline-shots-")   # throw-away web profile
     QGuiApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     import PySide6.QtWebEngineWidgets  # noqa: F401
     QGuiApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     app = QApplication(sys.argv[:1])
 
-    from caption_assist.config import Settings
-    from caption_assist.core.recorder import Recorder
-    from caption_assist.ui import theme
-    from caption_assist.ui.main_window import MainWindow
+    from ghostline.config import Settings
+    from ghostline.core.recorder import Recorder
+    from ghostline.ui import theme
+    from ghostline.ui.main_window import MainWindow
 
     Settings.save = lambda self: None   # never touch the user's real settings
     app.setStyleSheet(theme.APP_STYLESHEET)

@@ -7,7 +7,7 @@ import sys
 from ctypes import wintypes
 
 if sys.platform != "win32":  # pragma: no cover
-    raise ImportError("caption_assist.win.win32 requires Windows")
+    raise ImportError("ghostline.win.win32 requires Windows")
 
 user32 = ctypes.WinDLL("user32", use_last_error=True)
 kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)

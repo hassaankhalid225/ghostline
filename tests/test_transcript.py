@@ -2,7 +2,7 @@ import itertools
 
 import pytest
 
-from caption_assist.core.transcript import Transcript
+from ghostline.core.transcript import Transcript
 
 
 @pytest.fixture

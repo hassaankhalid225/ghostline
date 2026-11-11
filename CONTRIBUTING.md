@@ -1,17 +1,17 @@
 # Contributing
 
-Thanks for helping improve Caption Assist!
+Thanks for helping improve Ghostline!
 
 ## Setup
 
 ```powershell
-git clone https://github.com/hassaankhalid225/caption-assist.git
-cd caption-assist
+git clone https://github.com/hassaankhalid225/ghostline.git
+cd ghostline
 python -m venv .venv; .venv\Scripts\activate
 python -m pip install -e ".[dev]"
 ```
 
-Run the app with `python -m caption_assist --debug` (logs also go to the console).
+Run the app with `python -m ghostline --debug` (logs also go to the console).
 
 ## Before opening a pull request
 
@@ -28,7 +28,7 @@ python -m pytest          # tests
 
 ## Handy dev flags
 
-`python -m caption_assist --start --screenshot shot.png --screenshot-delay 8000`
+`python -m ghostline --start --screenshot shot.png --screenshot-delay 8000`
 starts recording and saves a picture of the window after 8 s (useful for README screenshots and
 visual checks).
 
@@ -37,9 +37,9 @@ transcript (Live Captions and your settings are not touched). The AI-panel image
 throw-away, signed-out browser profile and really sends the demo question to ChatGPT, so it needs
 internet access.
 
-`python -m caption_assist --ai` opens with the AI side panel already showing.
+`python -m ghostline --ai` opens with the AI side panel already showing.
 
 ## Releasing
 
-1. Bump `__version__` in `src/caption_assist/__init__.py` and update `CHANGELOG.md`.
+1. Bump `__version__` in `src/ghostline/__init__.py` and update `CHANGELOG.md`.
 2. `git tag v1.2.3 && git push --tags` — GitHub Actions builds the zip and drafts the release.

@@ -2,7 +2,7 @@ import contextlib
 import os
 import time
 
-from caption_assist.core.recorder import Recorder, Status
+from ghostline.core.recorder import Recorder, Status
 
 
 class FakeSource:

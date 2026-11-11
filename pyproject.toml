@@ -3,7 +3,7 @@ requires = ["hatchling>=1.21"]
 build-backend = "hatchling.build"
 
 [project]
-name = "caption-assist"
+name = "ghostline"
 dynamic = ["version"]
 description = "Live captions with ChatGPT / Claude side by side, hidden from screenshots and screen sharing."
 readme = "README.md"
@@ -33,13 +33,13 @@ dependencies = [
 dev = ["pytest>=8", "ruff>=0.5", "pyinstaller>=6.3", "Pillow>=10"]
 
 [project.gui-scripts]
-caption-assist = "caption_assist.app:main"
+ghostline = "ghostline.app:main"
 
 [tool.hatch.version]
-path = "src/caption_assist/__init__.py"
+path = "src/ghostline/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/caption_assist"]
+packages = ["src/ghostline"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

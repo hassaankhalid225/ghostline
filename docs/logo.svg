@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>Ghostline</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#20223a"/><stop offset="1" stop-color="#0e0f17"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7cd2ff" stop-opacity="0.24"/><stop offset="1" stop-color="#7cd2ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ghost" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7cd2ff"/><stop offset="1" stop-color="#a99bff"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="66.56" fill="url(#tile)"/>
+  <rect width="256" height="256" rx="66.56" fill="url(#glow)"/>
+  <path d="M61.44,110.08 A66.56,66.56 0 0 1 194.56,110.08 L194.56,212.48 Q172.37,174.08 150.19,212.48 Q128.00,174.08 105.81,212.48 Q83.63,174.08 61.44,212.48 Z" fill="url(#ghost)"/>
+  <g stroke="#10111a" stroke-width="19.20" stroke-linecap="round"><line x1="89.60" y1="110.08" x2="166.40" y2="110.08"/><line x1="89.60" y1="142.08" x2="140.80" y2="142.08"/></g>
+</svg>

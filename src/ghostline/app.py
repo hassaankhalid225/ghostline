@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    p = argparse.ArgumentParser(prog="caption-assist", description=APP_NAME)
+    p = argparse.ArgumentParser(prog="ghostline", description=APP_NAME)
     p.add_argument("--start", action="store_true", help="start recording immediately")
     p.add_argument("--ai", action="store_true", help="open the AI side panel on start")
     p.add_argument("--debug", action="store_true", help="verbose logging")
@@ -29,6 +29,9 @@ def main(argv: list[str] | None = None) -> int:
     if sys.platform != "win32":
         print(f"{APP_NAME} only runs on Windows 11 (it reads the built-in Live Captions app).", file=sys.stderr)
         return 2
+
+    from .config import migrate_legacy
+    migrate_legacy()   # before anything creates the new data folders
 
     from .logging_setup import install_exception_hooks, log_file_path, setup_logging
     setup_logging(args.debug)

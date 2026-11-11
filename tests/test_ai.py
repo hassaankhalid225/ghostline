@@ -1,7 +1,7 @@
 import pytest
 
-from caption_assist.core.ai import captions_for_ai
-from caption_assist.core.transcript import Line
+from ghostline.core.ai import captions_for_ai
+from ghostline.core.transcript import Line
 
 
 def lines(*texts):
